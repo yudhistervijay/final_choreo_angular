@@ -64,19 +64,24 @@ declare global {
         apiUrlConfig: any;
         apiUrlInv: any;
         apiUrl: string;
+        apiUrlShipment:any;
+        apiUrlUser:any;
+        apiUrlDashboard:any;
+        apiUrlAppraisal:any;
+        apiUrlSrchFtry:any;
       };
     }
   }
   
   export const apiUrl = window?.configs?.apiUrl ? window.configs.apiUrl : "/choreo-apis/bigbillioncars/reading-list-service/books-rest-endpoint-d70/v1.0";
 
-  const inv= window?.configs?.apiUrl ? window.configs.apiUrlInv :"/choreo-apis/bigbillioncars/newballerina/inventory-a4c/v1.0";
-  
+  const inv= window?.configs?.apiUrl ? window.configs.apiUrlInv :"/choreo-apis/choreo/ballerina/inventory-a4c/v1.0";
   const config= window?.configs?.apiUrl ? window.configs.apiUrlConfig :"/choreo-apis/choreo/ballerina/configcodes-631/v1.0";
-  const shipment= window?.configs?.apiUrl ? window.configs.apiUrlConfig :"/choreo-apis/choreo/ballerina/shipment-ec9/v1.0";
-
-
-
+  const shipment= window?.configs?.apiUrl ? window.configs.apiUrlShipment :"/choreo-apis/choreo/ballerina/shipment-ec9/v1.0";
+  const user= window?.configs?.apiUrl ? window.configs.apiUrlUser :"/choreo-apis/choreo/ballerina/user-27c/v1.0";
+  const appraisal= window?.configs?.apiUrl ? window.configs.apiUrlAppraisal :"/choreo-apis/choreo/ballerina/appraisal-a0e/v1.0";
+  const dashboard= window?.configs?.apiUrl ? window.configs.apiUrlDashboard :"/choreo-apis/choreo/ballerina/dash-ecb/v1.0";
+  const srchFtry= window?.configs?.apiUrl ? window.configs.apiUrlSrchFtry :"/choreo-apis/choreo/ballerina/searchfactory-008/v1.0";
 
 
 
