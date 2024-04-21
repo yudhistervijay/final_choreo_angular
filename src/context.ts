@@ -72,7 +72,9 @@ declare global {
 
   const inv= window?.configs?.apiUrl ? window.configs.apiUrlInv :"/choreo-apis/bigbillioncars/newballerina/inventory-a4c/v1.0";
   
-  const config= window?.configs?.apiUrl ? window.configs.apiUrlConfig :"/choreo-apis/bigbillioncars/newballerina/configcodes-631/v1.0";
+  const config= window?.configs?.apiUrl ? window.configs.apiUrlConfig :"/choreo-apis/choreo/ballerina/configcodes-631/v1.0";
+  const shipment= window?.configs?.apiUrl ? window.configs.apiUrlConfig :"/choreo-apis/choreo/ballerina/shipment-ec9/v1.0";
+
 
 
 
@@ -80,13 +82,13 @@ declare global {
 
 const contextPaths = {
    
-    appraisal: `${apiUrl}/appraisal`,
+    appraisal: `${apiUrl}`,
     configcodes:`${config}`,
-    inventory: `${inv}/inventory`,
-    searchfactory: `${apiUrl}/searchFactory`,
-    shipment: `${apiUrl}/shipment`,
-    userregistration: `${apiUrl}/user`,
-    dashboard:`${apiUrl}/dash`,
+    inventory: `${inv}`,
+    searchfactory: `${apiUrl}`,
+    shipment: `${apiUrl}`,
+    userregistration: `${apiUrl}`,
+    dashboard:`${apiUrl}`,
 }
 
 
