@@ -9,9 +9,9 @@ export class AuthServiceService {
   constructor(private http: HttpClient) {}
 
   getToken(): Observable<string> {
-    const url = 'https://api.asgardeo.io/t/orgenox1/oauth2/token';
+    const url = 'https://api.asgardeo.io/t/vijaytech/oauth2/token';
     const headers = {
-      Authorization: 'Basic R1dCWWRPNVo3Z1ZkX255V29pWnJjb3B3T2NnYTp0aVVZUzZNR2RmWkM0dllWNlFBMDdFQVJ2X1BzY1JGbXdXRno4RjE5N1JFYQ==',
+      Authorization: 'Basic cnozSnJkbTE0SWh5VTJyR2RRRXc4Tmx2Yl9vYTpfb0Y5SHljRDB0YVpQNm5yaUZNXzN3aTMwa0tNdHpLU2xGOGVNRDVGTVdRYQ==',
       'Content-Type': 'application/x-www-form-urlencoded'
     };
     const body = 'grant_type=client_credentials';
