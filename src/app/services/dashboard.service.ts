@@ -179,20 +179,17 @@ export class DashboardService {
 
             // Make a request to your server with the latitude and longitude
             const url = `${urls.dash}?lati=${latitude}&longi=${longitude}`;
-           
-
-             
             
             
             // Make an HTTP request to fetch weather data
-            fetch(url
+            fetch(url)
             //   ,{
             //   method: 'GET',
             //   headers:{
             //      'Authorization': `Bearer ${access_token}`          
             //   }
             // }
-          )
+          // )
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
