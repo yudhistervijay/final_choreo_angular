@@ -161,71 +161,30 @@ export class DashboardService {
   
 
     // Get the current location using navigator.geolocation
-    //  getWeatherData() {
-    // //   let access_token=""
-
-    // //   return this.authService.getToken().subscribe({
-    // //      next:(token)=>{ access_token=token;}
-         
-    // //     })
+     getWeatherData(access_token:string) {
+     
       
 
-    //   return new Promise((resolve, reject) => {
-    //       navigator.geolocation.getCurrentPosition(successCallback );
-
-    //       function successCallback(this: any, position: GeolocationPosition) {
-    //         const latitude = position.coords.latitude;
-    //         const longitude = position.coords.longitude;
-
-    //         // Make a request to your server with the latitude and longitude
-    //         const url = `${urls.dash}?lati=${latitude}&longi=${longitude}`;
-            
-            
-    //         // Make an HTTP request to fetch weather data
-    //         fetch(url)
-    //         //   ,{
-    //         //   method: 'GET',
-    //         //   headers:{
-    //         //      'Authorization': `Bearer ${access_token}`          
-    //         //   }
-    //         // }
-    //       // )
-    //             .then(response => {
-    //                 if (!response.ok) {
-    //                     throw new Error('Network response was not ok');
-    //                 }
-    //                 return response.json();
-    //             })
-    //             .then(data => {
-    //                 // Resolve the promise with the retrieved weather data
-
-    //                 console.log(data);
-                    
-    //                 resolve(data);
-    //             })
-    //             .catch(error => {
-    //                 // Reject the promise with the error
-    //                 reject(error);
-    //             });
-    //     }
-
-
-    //       });
-    //  }
-
-    getWeatherData() {
       return new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(successCallback );
 
-          function successCallback(position: GeolocationPosition) {
+          function successCallback(this: any, position: GeolocationPosition) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
             // Make a request to your server with the latitude and longitude
             const url = `${urls.dash}?lati=${latitude}&longi=${longitude}`;
-
+            
+            
             // Make an HTTP request to fetch weather data
-            fetch(url)
+            fetch(url
+              ,{
+              method: 'GET',
+              headers:{
+                 'Authorization': `Bearer ${access_token}`          
+              }
+            }
+          )
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -244,15 +203,56 @@ export class DashboardService {
                     reject(error);
                 });
         }
+
+
           });
      }
+
+    // getWeatherData() {
+    //   return new Promise((resolve, reject) => {
+    //       navigator.geolocation.getCurrentPosition(successCallback );
+
+    //       function successCallback(position: GeolocationPosition) {
+    //         const latitude = position.coords.latitude;
+    //         const longitude = position.coords.longitude;
+
+    //         // Make a request to your server with the latitude and longitude
+    //         const url = `${urls.dash}?lati=${latitude}&longi=${longitude}`;
+
+    //         // Make an HTTP request to fetch weather data
+    //         fetch(url)
+    //             .then(response => {
+    //                 if (!response.ok) {
+    //                     throw new Error('Network response was not ok');
+    //                 }
+    //                 return response.json();
+    //             })
+    //             .then(data => {
+    //                 // Resolve the promise with the retrieved weather data
+
+    //                 console.log(data);
+                    
+    //                 resolve(data);
+    //             })
+    //             .catch(error => {
+    //                 // Reject the promise with the error
+    //                 reject(error);
+    //             });
+    //     }
+    //       });
+    //  }
 
 
            
 
 
 getWeatherData1(){
- return this.getWeatherData();
+ let access_token="";
+  this.authService.getToken().subscribe({
+         next:(token)=>{ access_token=token;}         
+        })
+ return this.getWeatherData(access_token);
+
  
 //  .then(weatherData => {
 //       // Use the weather data here
