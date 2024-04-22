@@ -15,6 +15,8 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private authService: AuthServiceService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log(request.url);
+    
 
     if(request.url.includes('/dropDowns') ||request.url.includes('/userCount') ||request.url.includes('/fetchUser') ||
     request.url.includes('/addAppraiseVehicle') ||request.url.includes('/deleteAppraisal') ||request.url.includes('/getweatherinfo') ||
