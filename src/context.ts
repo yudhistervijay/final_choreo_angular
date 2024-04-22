@@ -81,8 +81,7 @@ declare global {
   const user= window?.configs?.apiUrl ? window.configs.apiUrlUser :"/choreo-apis/choreo/ballerina/user-27c/v1.0";
   const appraisal= window?.configs?.apiUrl ? window.configs.apiUrlAppraisal :"/choreo-apis/choreo/ballerina/appraisal-a0e/v1.0";
   const dashboard= window?.configs?.apiUrl ? window.configs.apiUrlDashboard :"/choreo-apis/choreo/ballerina/dash-ecb/v1.0";
-  const srchFtry= window?.configs?.apiUrl ? window.configs.apiUrlSrchFtry :"/choreo-apis/choreo/ballerina/searchfactory-008/v1.0";
-
+  const srchFtry= window?.configs?.apiUrl ? window.configs.apiUrlSrchFtry :"/choreo-apis/choreo/ballerina/searchfactory-008/v1.0";                                                                        
 
 
 const contextPaths = {
