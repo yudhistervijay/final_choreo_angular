@@ -2,6 +2,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { SharedService } from './shared.service';
 import urls from 'src/properties';
+import { AuthServiceService } from '../auth-service.service';
+import { switchMap } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,7 @@ export class DashboardService {
 
     // public userId:any="598d968b-a7ac-4d26-87a4-ed4659e2d472";
 
-    constructor(private http:HttpClient , private sharedServices:SharedService ) {
+    constructor(private http:HttpClient , private sharedServices:SharedService, public authService:AuthServiceService ) {
       
       
       this.userId  = sessionStorage.getItem('userData');
@@ -159,18 +162,35 @@ export class DashboardService {
 
     // Get the current location using navigator.geolocation
      getWeatherData() {
+      let access_token=""
+
+      return this.authService.getToken().subscribe({
+         next:(token)=>{ access_token=token;}
+         
+        })
+      
+
       return new Promise((resolve, reject) => {
           navigator.geolocation.getCurrentPosition(successCallback );
 
-          function successCallback(position: GeolocationPosition) {
+          function successCallback(this: any, position: GeolocationPosition) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
             // Make a request to your server with the latitude and longitude
             const url = `${urls.dash}?lati=${latitude}&longi=${longitude}`;
+           
 
+             
+            
+            
             // Make an HTTP request to fetch weather data
-            fetch(url)
+            fetch(url,{
+              method: 'GET',
+              headers:{
+                 'Authorization': `Bearer ${access_token}`          
+              }
+            })
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
