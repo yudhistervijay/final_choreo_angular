@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   public feelslike_c = "";
   ngOnInit(): void {
 
-    this.DashboardService.getWeatherData1().then(
+    this.DashboardService.getWeatherData1().subscribe(
       (response: any) => {
         this.current_temp = response.current.temp_c;
         this.weatherImage = response.current.condition.icon;

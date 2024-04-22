@@ -247,11 +247,22 @@ export class DashboardService {
 
 
 getWeatherData1(){
- let access_token="";
-  this.authService.getToken().subscribe({
-         next:(token)=>{ access_token=token;}         
-        })
- return this.getWeatherData(access_token);
+
+  return this.authService.getToken().pipe(
+    switchMap((token: string) => {
+     
+      let access_token="";
+       access_token=token;
+    
+     return this.getWeatherData(access_token);
+        
+    })
+  );
+}
+
+
+
+
 
  
 //  .then(weatherData => {
@@ -270,7 +281,6 @@ getWeatherData1(){
 
 
   
-}
 
 
    
