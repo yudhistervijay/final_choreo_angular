@@ -87,13 +87,13 @@ declare global {
 
 const contextPaths = {
    
-    appraisal: `${apiUrl}`,
+    appraisal: `${appraisal}`,
     configcodes:`${config}`,
     inventory: `${inv}`,
-    searchfactory: `${apiUrl}`,
-    shipment: `${apiUrl}`,
-    userregistration: `${apiUrl}`,
-    dashboard:`${apiUrl}`,
+    searchfactory: `${srchFtry}`,
+    shipment: `${shipment}`,
+    userregistration: `${user}`,
+    dashboard:`${dashboard}`,
 }
 
 
