@@ -16,9 +16,9 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if(request.url.includes('/dropDowns') ||request.url.includes('api/endpoint1') ||request.url.includes('api/endpoint1') ||
-    request.url.includes('api/endpoint1') ||request.url.includes('api/endpoint1') ||request.url.includes('api/endpoint1') ||
-    request.url.includes('api/endpoint1') ||request.url.includes('api/endpoint1') ){
+    if(request.url.includes('/dropDowns') ||request.url.includes('/userCount') ||request.url.includes('/fetchUser') ||
+    request.url.includes('/addAppraiseVehicle') ||request.url.includes('/deleteAppraisal') ||request.url.includes('/getweatherinfo') ||
+    request.url.includes('/getFavoriteCards') ||request.url.includes('/apprList') ){
       return this.authService.getToken().pipe(
         switchMap((token: string) => {
           // Clone the request and add the obtained token to the headers
