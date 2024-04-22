@@ -162,12 +162,12 @@ export class DashboardService {
 
     // Get the current location using navigator.geolocation
      getWeatherData() {
-      let access_token=""
+    //   let access_token=""
 
-      return this.authService.getToken().subscribe({
-         next:(token)=>{ access_token=token;}
+    //   return this.authService.getToken().subscribe({
+    //      next:(token)=>{ access_token=token;}
          
-        })
+    //     })
       
 
       return new Promise((resolve, reject) => {
@@ -185,12 +185,14 @@ export class DashboardService {
             
             
             // Make an HTTP request to fetch weather data
-            fetch(url,{
-              method: 'GET',
-              headers:{
-                 'Authorization': `Bearer ${access_token}`          
-              }
-            })
+            fetch(url
+            //   ,{
+            //   method: 'GET',
+            //   headers:{
+            //      'Authorization': `Bearer ${access_token}`          
+            //   }
+            // }
+          )
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
