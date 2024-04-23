@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, HostListener, OnChanges, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { AprraisalService } from '../services/aprraisal.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { Observable, Subscription, fromEvent } from 'rxjs';
-import { debounceTime, map, distinctUntilChanged, tap, shareReplay } from 'rxjs/operators';
+import { debounceTime, map, distinctUntilChanged, tap, shareReplay, switchMap } from 'rxjs/operators';
 import { MatTabGroup } from '@angular/material/tabs';
 import { CommunicationService } from '../services/communication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,6 +12,7 @@ import urls from 'src/properties';
 import { AbilityService } from '@casl/angular';
 import { PureAbility } from '@casl/ability';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { AuthServiceService } from '../auth-service.service';
 
 @Component({
   selector: 'app-appraisal-page',
@@ -89,11 +90,40 @@ onScrollDownAppraisal() {
 
   private subscription: Subscription;
   public able_to!: PureAbility;
-  baseUrl: string = `${urls.appraisalGetPic1}?pic1=`;
+  // baseUrl: string = `${urls.appraisalGetPic1}?pic1=`;
+
+  getPicByte(access_token:string , imgName:any) {
+    const url =`${urls.appraisalGetPic1}?pic1=${imgName}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${access_token}`
+    });
+    const options = {headers:headers};
+    return this.http.post(url,null,options);
+  }
+
+  
+
+  baseUrl(imgName:any){
+
+    return this.authService.getToken().pipe(
+      switchMap((token: string) => {
+       
+        let access_token="";
+         access_token=token;
+      
+       return this.getPicByte(access_token,imgName);
+          
+      })
+    );
+  }
+
+
+
 
   defaultImageUrl: string = "https://images.unsplash.com/photo-1605218403317-6caf5485d304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
 
-  constructor( private appraisalservice: AprraisalService, private http: HttpClient, private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private communicationService: CommunicationService, private snackBar: MatSnackBar) {
+  constructor( private appraisalservice: AprraisalService, private http: HttpClient, private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private communicationService: CommunicationService, private snackBar: MatSnackBar, public authService:AuthServiceService) {
 
    
 
