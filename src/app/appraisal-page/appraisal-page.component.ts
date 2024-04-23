@@ -3,7 +3,7 @@ import { AprraisalService } from '../services/aprraisal.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router, ActivatedRoute, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { Observable, Subscription, fromEvent } from 'rxjs';
+import { Observable, Subscription, fromEvent, throwError } from 'rxjs';
 import { debounceTime, map, distinctUntilChanged, tap, shareReplay, switchMap } from 'rxjs/operators';
 import { MatTabGroup } from '@angular/material/tabs';
 import { CommunicationService } from '../services/communication.service';
@@ -305,6 +305,19 @@ onScrollDownAppraisal() {
       (response): any => {
         this.isLoading = false;
         this.totalPage = response.totalPages;
+        
+        response.cards.forEach((item: any) => {
+          // Call fetchImage for each image UUID
+          this.fetchImage(item.vehiclePic1).subscribe(
+            (imageSrc: string) => {
+              // Store the imageSrc for the current item
+              item.imageSrc = imageSrc;
+            },
+            (error: any) => {
+              console.error('Error fetching image:', error);
+            }
+          );
+        });
         this.apprCards = response.cards;
         console.log(this.apprCards);
       },
@@ -347,7 +360,36 @@ onScrollDownAppraisal() {
 
   };
 // blob image
-// imageSrc:any=''
+imageSrc:any=''
+fetchImage(imageUUID: any): Observable<any> {
+  // Return an Observable for the imageSrc
+  return this.authService.getToken().pipe(
+    switchMap((token: string) => {
+      const headers = new HttpHeaders({
+        'Authorization': token,
+        // Add any other headers you need
+      });
+      // Return the HTTP request Observable
+      return this.http.get(`${urls.appraisalGetPic1}?pic1=${imageUUID}`, { headers: headers, responseType: 'blob' }).pipe(
+        map((response: Blob) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(response);
+          return new Observable<string>((observer) => {
+            reader.onloadend = () => {
+              observer.next(reader.result as string);
+              observer.complete();
+            };
+          });
+        }),
+        catchError((error: any) => {
+          console.error('Error fetching image:', error);
+          return throwError(error);
+        })
+      );
+    })
+  );
+}
+
 // fetchImage(imageName:any) {
 //   let access_token="";
 //   this.authService.getToken().pipe(
@@ -376,47 +418,9 @@ onScrollDownAppraisal() {
 //   });
 //   console.log("result-",this.imageSrc);
   
-//   return this.imageSrc
-// }
-// import { Observable, of } from 'rxjs';
-// import { catchError, map, switchMap } from 'rxjs/operators';
+  
+//   }
 
-imageSrc: string | undefined;
-
-fetchImage(imageName: any): Observable<any> {
-  return this.authService.getToken().pipe(
-    switchMap((token: string) => {
-      const headers = new HttpHeaders({
-        'Authorization': token,
-        // Add any other headers you need
-      });
-
-      return this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).pipe(
-        switchMap(response => {
-          return new Observable<string>(observer => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              this.imageSrc = reader.result as string;
-              observer.next(this.imageSrc);
-              observer.complete();
-            };
-            reader.readAsDataURL(response);
-          });
-        }),
-        catchError(error => {
-          console.error('Error fetching image:', error);
-          return of(undefined);
-        })
-      );
-    })
-  );
-}
-
-loadImage(imageName: string): void {
-  this.fetchImage(imageName).subscribe(imageSrc => {
-    this.imageSrc = imageSrc;
-  });
-}
 
 
 // blob image end
