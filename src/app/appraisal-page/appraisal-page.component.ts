@@ -371,7 +371,7 @@ fetchImage(imageName:any) {
   }, error => {
     console.error('Error fetching image:', error);
   });
-  console.log(this.imageSrc);
+  console.log("result-",this.imageSrc);
   
   return this.imageSrc
 }
