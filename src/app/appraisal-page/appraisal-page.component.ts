@@ -341,11 +341,11 @@ onScrollDownAppraisal() {
 
     // Initial call to fetch dropdowns based on initial form values
     this.getDropdownsForAppraisalFilter(this.appraisalFilter.value);
-this.fetchImage();
+
   };
 // blob image
 imageSrc:any=''
-fetchImage() {
+fetchImage(imageName:any) {
   let access_token="";
   this.authService.getToken().pipe(
     switchMap((token: string) => {
@@ -362,7 +362,7 @@ fetchImage() {
     // Add any other headers you need
   });
 
-  this.http.get(`${urls.appraisalGetPic1}?pic1=bcf687e4-c4ca-4ec8-b9f4-4250d9bf21ed.jpg`, { headers: headers, responseType: 'blob' }).subscribe(response => {
+  this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).subscribe(response => {
     const reader = new FileReader();
     reader.onloadend = () => {
       this.imageSrc = reader.result;
@@ -371,6 +371,7 @@ fetchImage() {
   }, error => {
     console.error('Error fetching image:', error);
   });
+  return this.imageSrc
 }
 
 
