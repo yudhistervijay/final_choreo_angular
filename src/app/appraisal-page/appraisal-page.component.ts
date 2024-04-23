@@ -381,42 +381,42 @@ onScrollDownAppraisal() {
 // import { Observable, of } from 'rxjs';
 // import { catchError, map, switchMap } from 'rxjs/operators';
 
-imageSrc: string | undefined;
+// imageSrc: string | undefined;
 
-fetchImage(imageName: any): Observable<any> {
-  return this.authService.getToken().pipe(
-    switchMap((token: string) => {
-      const headers = new HttpHeaders({
-        'Authorization': token,
-        // Add any other headers you need
-      });
+// fetchImage(imageName: any): Observable<any> {
+//   return this.authService.getToken().pipe(
+//     switchMap((token: string) => {
+//       const headers = new HttpHeaders({
+//         'Authorization': token,
+//         // Add any other headers you need
+//       });
 
-      return this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).pipe(
-        switchMap(response => {
-          return new Observable<string>(observer => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-              this.imageSrc = reader.result as string;
-              observer.next(this.imageSrc);
-              observer.complete();
-            };
-            reader.readAsDataURL(response);
-          });
-        }),
-        catchError(error => {
-          console.error('Error fetching image:', error);
-          return of(undefined);
-        })
-      );
-    })
-  );
-}
+//       return this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).pipe(
+//         switchMap(response => {
+//           return new Observable<string>(observer => {
+//             const reader = new FileReader();
+//             reader.onloadend = () => {
+//               this.imageSrc = reader.result as string;
+//               observer.next(this.imageSrc);
+//               observer.complete();
+//             };
+//             reader.readAsDataURL(response);
+//           });
+//         }),
+//         catchError(error => {
+//           console.error('Error fetching image:', error);
+//           return of(undefined);
+//         })
+//       );
+//     })
+//   );
+// }
 
-loadImage(imageName: string): void {
-  this.fetchImage(imageName).subscribe(imageSrc => {
-    this.imageSrc = imageSrc;
-  });
-}
+// loadImage(imageName: string): void {
+//   this.fetchImage(imageName).subscribe(imageSrc => {
+//     this.imageSrc = imageSrc;
+//   });
+// }
 
 
 // blob image end
