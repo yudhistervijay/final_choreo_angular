@@ -306,18 +306,18 @@ onScrollDownAppraisal() {
         this.isLoading = false;
         this.totalPage = response.totalPages;
         
-        response.cards.forEach((item: any) => {
-          // Call fetchImage for each image UUID
-          this.fetchImage(item.vehiclePic1).subscribe(
-            (imageSrc: string) => {
-              // Store the imageSrc for the current item
-              item.imageSrc = imageSrc;
-            },
-            (error: any) => {
-              console.error('Error fetching image:', error);
-            }
-          );
-        });
+        // response.cards.forEach((item: any) => {
+        //   // Call fetchImage for each image UUID
+        //   this.fetchImage(item.vehiclePic1).subscribe(
+        //     (imageSrc: string) => {
+        //       // Store the imageSrc for the current item
+        //       item.imageSrc = imageSrc;
+        //     },
+        //     (error: any) => {
+        //       console.error('Error fetching image:', error);
+        //     }
+        //   );
+        // });
         this.apprCards = response.cards;
         console.log(this.apprCards);
       },
@@ -361,33 +361,29 @@ onScrollDownAppraisal() {
   };
 // blob image
 imageSrc:any=''
-fetchImage(imageUUID: any): Observable<any> {
+fetchImage(imageUUID: any) {
   // Return an Observable for the imageSrc
-  return this.authService.getToken().pipe(
-    switchMap((token: string) => {
-      const headers = new HttpHeaders({
-        'Authorization': token,
-        // Add any other headers you need
-      });
+  this.authService.getToken().subscribe({
+    next:(token:any)=>{
+      const headers={
+        'API-Key':token
+      }
+
+      this.http.get(`${urls.appraisalGetPic1}?pic1=${imageUUID}`, { headers: headers})
+      .subscribe({
+        next:(res:any)=>{
+
+          return res;
+        }
+      })
+
+    }
+  })
+   
       // Return the HTTP request Observable
-      return this.http.get(`${urls.appraisalGetPic1}?pic1=${imageUUID}`, { headers: headers, responseType: 'blob' }).pipe(
-        map((response: Blob) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(response);
-          return new Observable<string>((observer) => {
-            reader.onloadend = () => {
-              observer.next(reader.result as string);
-              observer.complete();
-            };
-          });
-        }),
-        catchError((error: any) => {
-          console.error('Error fetching image:', error);
-          return throwError(error);
-        })
-      );
-    })
-  );
+     
+      
+  
 }
 
 // fetchImage(imageName:any) {
