@@ -14,6 +14,9 @@ import { PureAbility } from '@casl/ability';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthServiceService } from '../auth-service.service';
 
+import {  of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
 @Component({
   selector: 'app-appraisal-page',
   templateUrl: './appraisal-page.component.html',
@@ -344,36 +347,75 @@ onScrollDownAppraisal() {
 
   };
 // blob image
-imageSrc:any=''
-fetchImage(imageName:any) {
-  let access_token="";
-  this.authService.getToken().pipe(
-    switchMap((token: string) => {
+// imageSrc:any=''
+// fetchImage(imageName:any) {
+//   let access_token="";
+//   this.authService.getToken().pipe(
+//     switchMap((token: string) => {
      
       
-       access_token=token;
+//        access_token=token;
     
-     return ''
+//      return ''
         
+//     })
+//   );
+//   const headers = new HttpHeaders({
+//     'Authorization': access_token,
+//     // Add any other headers you need
+//   });
+
+//   this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).subscribe(response => {
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       this.imageSrc = reader.result;
+//     };
+//     reader.readAsDataURL(response);
+//   }, error => {
+//     console.error('Error fetching image:', error);
+//   });
+//   console.log("result-",this.imageSrc);
+  
+//   return this.imageSrc
+// }
+// import { Observable, of } from 'rxjs';
+// import { catchError, map, switchMap } from 'rxjs/operators';
+
+imageSrc: string | undefined;
+
+fetchImage(imageName: any): Observable<any> {
+  return this.authService.getToken().pipe(
+    switchMap((token: string) => {
+      const headers = new HttpHeaders({
+        'Authorization': token,
+        // Add any other headers you need
+      });
+
+      return this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).pipe(
+        switchMap(response => {
+          return new Observable<string>(observer => {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              this.imageSrc = reader.result as string;
+              observer.next(this.imageSrc);
+              observer.complete();
+            };
+            reader.readAsDataURL(response);
+          });
+        }),
+        catchError(error => {
+          console.error('Error fetching image:', error);
+          return of(undefined);
+        })
+      );
     })
   );
-  const headers = new HttpHeaders({
-    'Authorization': access_token,
-    // Add any other headers you need
-  });
+}
 
-  this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).subscribe(response => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      this.imageSrc = reader.result;
-    };
-    reader.readAsDataURL(response);
-  }, error => {
-    console.error('Error fetching image:', error);
+loadImage(imageName: string): void {
+  this.fetchImage(imageName).subscribe(imageSrc => {
+    this.imageSrc = imageSrc;
   });
-  console.log("result-",this.imageSrc);
-  
-  return this.imageSrc
 }
 
 
