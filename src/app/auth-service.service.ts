@@ -11,7 +11,7 @@ export class AuthServiceService {
   getToken(): Observable<string> {
     const url = 'https://api.asgardeo.io/t/vijaytech/oauth2/token';
     const headers = {
-      Authorization: 'Basic cnozSnJkbTE0SWh5VTJyR2RRRXc4Tmx2Yl9vYTpfb0Y5SHljRDB0YVpQNm5yaUZNXzN3aTMwa0tNdHpLU2xGOGVNRDVGTVdRYQ==',
+      Authorization: 'Basic QWpxTmhSZkJuZlk5ekNmOUNhcEJGa2JLQ3BjYTpwMElWSE9qS3FJOWpMeHA1ZTA3dWhWSmp6REFkZlVIVUg2OGFrdUpreHNvYQ==',
       'Content-Type': 'application/x-www-form-urlencoded'
     };
     const body = 'grant_type=client_credentials';
