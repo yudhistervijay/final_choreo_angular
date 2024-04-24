@@ -12,7 +12,7 @@ export class AuthServiceService {
     const url = 'https://api.asgardeo.io/t/vijaytech/oauth2/token';
     const headers = {
       Authorization: 'Basic SFlVT3NRWGpJZlhWMjlWSVZ1RDJORjhma2VzYTpCa2pWZGRnaGV4V0t4aU93RjY3TzRSNXQ2ZWxwQ1AzOGpLZlJHXzVsQUdVYQ==',
-      'Content-Type': 'application/x-www-form-urlencoded'
+      // 'Content-Type': 'application/x-www-form-urlencoded'
     };
     const body = 'grant_type=client_credentials';
 
