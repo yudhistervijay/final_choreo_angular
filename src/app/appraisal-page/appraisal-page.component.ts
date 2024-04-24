@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, HostListener, OnChanges, OnInit, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { AprraisalService } from '../services/aprraisal.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute, RouterLinkActive, NavigationEnd } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { Observable, Subscription, fromEvent, throwError } from 'rxjs';
-import { debounceTime, map, distinctUntilChanged, tap, shareReplay, switchMap } from 'rxjs/operators';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+import { debounceTime, map, distinctUntilChanged, tap, shareReplay } from 'rxjs/operators';
 import { MatTabGroup } from '@angular/material/tabs';
 import { CommunicationService } from '../services/communication.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,10 +12,6 @@ import urls from 'src/properties';
 import { AbilityService } from '@casl/angular';
 import { PureAbility } from '@casl/ability';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AuthServiceService } from '../auth-service.service';
-
-import {  of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-appraisal-page',
@@ -93,42 +89,11 @@ onScrollDownAppraisal() {
 
   private subscription: Subscription;
   public able_to!: PureAbility;
-  // baseUrl: string = `${urls.appraisalGetPic1}?pic1=`;
-
-  getPicByte(access_token:string , imgName:any) {
-    const url =`${urls.appraisalGetPic1}?pic1=${imgName}`;
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${access_token}`
-    });
-    const options = {headers:headers};
-    return this.http.post(url,null,options);
-  }
-
-  
-
-  baseUrl(imgName:any){
-
-    return this.authService.getToken().pipe(
-      switchMap((token: string) => {
-       
-        let access_token="";
-         access_token=token;
-      
-       return this.getPicByte(access_token,imgName);
-          
-      })
-    );
-
-    
-  }
-
-
-
+  baseUrl: string = `${urls.appraisalGetPic1}?pic1=`;
 
   defaultImageUrl: string = "https://images.unsplash.com/photo-1605218403317-6caf5485d304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
 
-  constructor( private appraisalservice: AprraisalService, private http: HttpClient, private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private communicationService: CommunicationService, private snackBar: MatSnackBar, public authService:AuthServiceService) {
+  constructor( private appraisalservice: AprraisalService, private http: HttpClient, private router: Router, private route: ActivatedRoute, private fb: FormBuilder, private communicationService: CommunicationService, private snackBar: MatSnackBar) {
 
    
 
@@ -305,19 +270,6 @@ onScrollDownAppraisal() {
       (response): any => {
         this.isLoading = false;
         this.totalPage = response.totalPages;
-        
-        // response.cards.forEach((item: any) => {
-        //   // Call fetchImage for each image UUID
-        //   this.fetchImage(item.vehiclePic1).subscribe(
-        //     (imageSrc: string) => {
-        //       // Store the imageSrc for the current item
-        //       item.imageSrc = imageSrc;
-        //     },
-        //     (error: any) => {
-        //       console.error('Error fetching image:', error);
-        //     }
-        //   );
-        // });
         this.apprCards = response.cards;
         console.log(this.apprCards);
       },
@@ -359,63 +311,7 @@ onScrollDownAppraisal() {
     this.getDropdownsForAppraisalFilter(this.appraisalFilter.value);
 
   };
-// // blob image
-// imageSrc:any=''
-// fetchImage(imageUUID: any) {
-//   // Return an Observable for the imageSrc
-//   this.authService.getToken().subscribe({
-//     next:(token:any)=>{
-//       const headers={
-//         'API-Key':token
-//       }
 
-//       this.http.get(`${urls.appraisalGetPic1}?pic1=${imageUUID}`, { headers: headers})
-//       .subscribe({
-//         next:(res:any)=>{
-
-//           return res;
-//         }
-//       })
-
-//     }
-//   })
-             
-// }
-
-// fetchImage(imageName:any) {
-//   let access_token="";
-//   this.authService.getToken().pipe(
-//     switchMap((token: string) => {
-     
-      
-//        access_token=token;
-    
-//      return ''
-        
-//     })
-//   );
-//   const headers = new HttpHeaders({
-//     'Authorization': access_token,
-//     // Add any other headers you need
-//   });
-
-//   this.http.get(`${urls.appraisalGetPic1}?pic1=${imageName}`, { headers: headers, responseType: 'blob' }).subscribe(response => {
-//     const reader = new FileReader();
-//     reader.onloadend = () => {
-//       this.imageSrc = reader.result;
-//     };
-//     reader.readAsDataURL(response);
-//   }, error => {
-//     console.error('Error fetching image:', error);
-//   });
-//   console.log("result-",this.imageSrc);
-  
-  
-//   }
-
-
-
-// blob image end
   ngOnDestroy(): void {
 
      this.subscription.unsubscribe();

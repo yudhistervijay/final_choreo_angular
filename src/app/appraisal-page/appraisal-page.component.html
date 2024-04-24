@@ -80,15 +80,8 @@
                         <span>{{apprCard.titleSts?.shortDescrip}}</span>
                       </div>
                       <img mat-card-image *ngIf="(apprCard.vehiclePic1)!=null; else defaultImage"
-                      [src]="baseUrl+ apprCard.vehiclePic1" (click)="gotoViewVehicle(apprCard , 'card')"
-                      alt="{{apprCard.vehicleMake}}" width="100%" height="181px" class="image-style">
-
-                        <!-- <img mat-card-image *ngIf="(apprCard.vehiclePic1)!=null; else defaultImage"
-                        [src]="fetchImage(apprCard.vehiclePic1)" (click)="gotoViewVehicle(apprCard , 'card')"
-                        alt="{{apprCard.vehicleMake}}" width="100%" height="181px" class="image-style"> -->
-                        <!-- <img mat-card-image *ngIf="(apprCard.vehiclePic1)!=null; else defaultImage" [src]="imageSrc" (click)="gotoViewVehicle(apprCard, 'card')"
-  alt="{{ apprCard.vehicleMake }}" width="100%" height="181px" class="image-style"> -->
-
+                        [src]="baseUrl+ apprCard.vehiclePic1" (click)="gotoViewVehicle(apprCard , 'card')"
+                        alt="{{apprCard.vehicleMake}}" width="100%" height="181px" class="image-style">
                       <ng-template #defaultImage>
                         <img mat-card-image (click)="gotoViewVehicle(apprCard ,'card')"
                           src="../../assets/images/images.png" alt="{{apprCard.vehicleMake}}" width="100%"
@@ -98,7 +91,6 @@
                         <mat-card-content>
                           <h4>{{apprCard.vehicleYear}} {{apprCard.vehicleMake}} {{apprCard.vehicleModel}}</h4>
                           <h3>{{apprCard.vehicleSeries}}</h3>
-                          
 
                           <div class="card-info-container">
                             <div class="card-info"><span class="card-info-text">{{apprCard.vehicleMileage}} miles</span>
@@ -123,12 +115,6 @@
                           </button>
                         </div> -->
                        
-                        <!-- <div class="d-flex col-sm-3 justify-content-center">
-                          <button mat-icon-button color="warn" matTooltip="delete" matTooltipPosition="above"
-                            (click)="deleteAppraisal(apprCard.id)"  >
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                        </div> -->
                         <div class="d-flex col-sm-3 justify-content-center">
                           <button mat-icon-button color="warn" matTooltip="delete" matTooltipPosition="above"
                             (click)="deleteAppraisal(apprCard.id)"  >
@@ -307,5 +293,4 @@
     <router-outlet *ngIf="!showparent"></router-outlet>
   </mat-drawer-container>
   <!-- </div> -->
-  
 </div>
