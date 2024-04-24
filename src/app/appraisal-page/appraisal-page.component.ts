@@ -359,32 +359,28 @@ onScrollDownAppraisal() {
     this.getDropdownsForAppraisalFilter(this.appraisalFilter.value);
 
   };
-// blob image
-imageSrc:any=''
-fetchImage(imageUUID: any) {
-  // Return an Observable for the imageSrc
-  this.authService.getToken().subscribe({
-    next:(token:any)=>{
-      const headers={
-        'API-Key':token
-      }
+// // blob image
+// imageSrc:any=''
+// fetchImage(imageUUID: any) {
+//   // Return an Observable for the imageSrc
+//   this.authService.getToken().subscribe({
+//     next:(token:any)=>{
+//       const headers={
+//         'API-Key':token
+//       }
 
-      this.http.get(`${urls.appraisalGetPic1}?pic1=${imageUUID}`, { headers: headers})
-      .subscribe({
-        next:(res:any)=>{
+//       this.http.get(`${urls.appraisalGetPic1}?pic1=${imageUUID}`, { headers: headers})
+//       .subscribe({
+//         next:(res:any)=>{
 
-          return res;
-        }
-      })
+//           return res;
+//         }
+//       })
 
-    }
-  })
-   
-      // Return the HTTP request Observable
-     
-      
-  
-}
+//     }
+//   })
+             
+// }
 
 // fetchImage(imageName:any) {
 //   let access_token="";
