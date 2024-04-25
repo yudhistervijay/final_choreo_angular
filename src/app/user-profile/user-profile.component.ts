@@ -125,8 +125,8 @@ public newPass:string='';
       formData.append('file', this.selectedFile);
 
       this.DashboardService.uploadProfilePic(this.selectedFile).subscribe((response:any) => {
-          console.log('File uploaded successfully', response.fileName);
-          this.showUserCard.profilePicture=response.fileName;
+          console.log('File uploaded successfully', response.message);
+          this.showUserCard.profilePicture=response.message;
         }, error => {
           console.error('Error uploading file', error);
         });
